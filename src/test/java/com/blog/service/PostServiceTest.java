@@ -3,6 +3,7 @@ package com.blog.service;
 import com.blog.domain.Post;
 import com.blog.repository.PostRepository;
 import com.blog.request.PostCreate;
+import com.blog.response.PostResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -58,15 +59,13 @@ class PostServiceTest {
         postRepository.save(post);
 
         // when
-        Post findPost = postService.findById(post.getId());
+        PostResponse findPost = postService.findById(post.getId());
 
         // then
         assertThat(findPost).isNotNull();
         assertThat(findPost.getTitle()).isEqualTo(post.getTitle());
         assertThat(findPost.getContent()).isEqualTo(post.getContent());
     }
-
-    //
 
     /**
      * ExceptionHandler를 통해 예외를 처리하지 않으면 테스트가 실패한다.
@@ -80,5 +79,43 @@ class PostServiceTest {
 
         // expected
         assertThatThrownBy(() -> postService.findById(postId)).isInstanceOf(IllegalArgumentException.class);
+    }
+
+
+    @Test
+    @DisplayName("서비스 정책에 따라 title은 10자 까지만 표시 된다.(underLength)")
+    void underLengthTitle() {
+        // given
+        Post post = Post.builder()
+                .title("12345")
+                .content("내용입니다.")
+                .build();
+
+        postRepository.save(post);
+
+        // when
+        PostResponse response = postService.findById(post.getId());
+
+        // then
+        assertThat(response.getTitle().length()).isSameAs(post.getTitle().length());
+    }
+
+    @Test
+    @DisplayName("서비스 정책에 따라 title은 10자 까지만 표시 된다.(overLength)")
+    void overLengthTitle() {
+        // given
+        Post post = Post.builder()
+                .title("1234567890123456")
+                .content("내용입니다.")
+                .build();
+
+        postRepository.save(post);
+
+
+        // when
+        PostResponse response = postService.findById(post.getId());
+
+        // then
+        assertThat(response.getTitle().length()).isSameAs(10);
     }
 }

@@ -1,7 +1,7 @@
 package com.blog.controller;
 
-import com.blog.domain.Post;
 import com.blog.request.PostCreate;
+import com.blog.response.PostResponse;
 import com.blog.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,8 @@ public class PostController {
     }
 
     @GetMapping("/posts/{postId}")
-    public Post findPost(@PathVariable(name = "postId") Long id) {
+    public PostResponse findPost(@PathVariable(name = "postId") Long id) {
+        // 서비스 정책이 추가 된다면 서비스 정책에 맞는 응답 클래스를 만들어서 반환을 하자!!
         return postService.findById(id);
     }
 }

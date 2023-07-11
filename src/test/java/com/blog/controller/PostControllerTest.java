@@ -14,7 +14,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static java.util.Locale.KOREA;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -118,6 +117,23 @@ class PostControllerTest {
         mockMvc.perform(get("/posts/{postId}", postId)
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("서비스 정책에 따라 title은 10자 까지만 표시 된다.")
+    void titleMaxLength() throws Exception {
+        // given
+        Post post = Post.builder()
+                .title("1234567890123456")
+                .content("내용입니다.")
+                .build();
+        postRepository.save(post);
+
+        // expected
+        mockMvc.perform(get("/posts/{postId}", post.getId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.title").value("1234567890"))
                 .andDo(print());
     }
 }

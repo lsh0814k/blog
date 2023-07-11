@@ -12,6 +12,9 @@ import javax.persistence.Lob;
 import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PUBLIC;
 
+/**
+ * Entity에는 서비스의 정책을 절대 넣지말것!!
+ */
 @Entity
 @NoArgsConstructor(access = PUBLIC)
 @Getter
