@@ -1,5 +1,6 @@
 package com.blog.controller;
 
+import com.blog.domain.Post;
 import com.blog.request.PostCreate;
 import com.blog.response.PostResponse;
 import com.blog.service.PostService;
@@ -8,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @Slf4j
@@ -16,6 +18,10 @@ public class PostController {
 
     private final PostService postService;
 
+    @GetMapping("/posts")
+    public List<PostResponse> findAll() {
+        return postService.findAll();
+    }
 
     @PostMapping("/posts")
     public void write(@RequestBody @Valid PostCreate request) {

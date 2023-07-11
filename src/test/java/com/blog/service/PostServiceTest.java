@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -81,7 +83,6 @@ class PostServiceTest {
         assertThatThrownBy(() -> postService.findPost(postId)).isInstanceOf(IllegalArgumentException.class);
     }
 
-
     @Test
     @DisplayName("서비스 정책에 따라 title은 10자 까지만 표시 된다.(underLength)")
     void underLengthTitle() {
@@ -117,5 +118,29 @@ class PostServiceTest {
 
         // then
         assertThat(response.getTitle().length()).isSameAs(10);
+    }
+
+
+    @Test
+    @DisplayName("글 여러개 조회")
+    void findAll() {
+        // given
+        Post post1 = Post.builder()
+                .title("제목1")
+                .content("내용1")
+                .build();
+        postRepository.save(post1);
+
+        Post post2 = Post.builder()
+                .title("제목2")
+                .content("내용2")
+                .build();
+        postRepository.save(post2);
+
+        // when
+        List<PostResponse> posts = postService.findAll();
+
+        // then
+        assertThat(posts.size()).isSameAs(2);
     }
 }
