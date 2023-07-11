@@ -25,13 +25,17 @@ public class ExceptionController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ErrorResponse invalidRequestHandler(BindingResult bindingResult, Locale locale) {
-        ErrorResponse response = new ErrorResponse(
-                "400",
-                "잘못된 요청입니다.",
-                bindingResult.getFieldErrors()
-                        .stream()
-                        .map(fieldError -> new FieldErrorDetail(fieldError.getField(), messageSource.getMessage(fieldError, locale), fieldError.getRejectedValue()))
-                        .collect(Collectors.toList()));
+        ErrorResponse response = ErrorResponse.builder()
+                .code("400")
+                .message("잘못된 요청입니다.")
+                .fieldErrorDetails(
+                        bindingResult.getFieldErrors()
+                                .stream()
+                                .map(fieldError -> new FieldErrorDetail(fieldError.getField(), messageSource.getMessage(fieldError, locale), fieldError.getRejectedValue()))
+                                .collect(Collectors.toList())
+                )
+                .build();
+
         return response;
     }
 }
