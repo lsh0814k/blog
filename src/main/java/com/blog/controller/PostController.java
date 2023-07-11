@@ -29,6 +29,6 @@ public class PostController {
     @GetMapping("/posts/{postId}")
     public PostResponse findPost(@PathVariable(name = "postId") Long id) {
         // 서비스 정책이 추가 된다면 서비스 정책에 맞는 응답 클래스를 만들어서 반환을 하자!!
-        return postService.findById(id);
+        return postService.findPost(id);
     }
 }

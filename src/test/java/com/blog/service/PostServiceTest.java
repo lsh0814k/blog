@@ -59,7 +59,7 @@ class PostServiceTest {
         postRepository.save(post);
 
         // when
-        PostResponse findPost = postService.findById(post.getId());
+        PostResponse findPost = postService.findPost(post.getId());
 
         // then
         assertThat(findPost).isNotNull();
@@ -78,7 +78,7 @@ class PostServiceTest {
         Long postId = 1L;
 
         // expected
-        assertThatThrownBy(() -> postService.findById(postId)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> postService.findPost(postId)).isInstanceOf(IllegalArgumentException.class);
     }
 
 
@@ -94,7 +94,7 @@ class PostServiceTest {
         postRepository.save(post);
 
         // when
-        PostResponse response = postService.findById(post.getId());
+        PostResponse response = postService.findPost(post.getId());
 
         // then
         assertThat(response.getTitle().length()).isSameAs(post.getTitle().length());
@@ -113,7 +113,7 @@ class PostServiceTest {
 
 
         // when
-        PostResponse response = postService.findById(post.getId());
+        PostResponse response = postService.findPost(post.getId());
 
         // then
         assertThat(response.getTitle().length()).isSameAs(10);

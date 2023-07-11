@@ -24,7 +24,7 @@ public class PostService {
         postRepository.save(post);
     }
 
-    public PostResponse findById(Long id) {
+    public PostResponse findPost(Long id) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 글입니다."));
 
