@@ -6,13 +6,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 
@@ -37,5 +40,13 @@ public class ExceptionController {
                 .build();
 
         return response;
+    }
+
+    // TODO errorMessage 정의해서 처리하자.
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity illegalArgumentHandler(IllegalArgumentException e) {
+        Map<String, String> message = new HashMap<>();
+        message.put("message", e.getMessage());
+        return new ResponseEntity(message, HttpStatus.BAD_REQUEST);
     }
 }
