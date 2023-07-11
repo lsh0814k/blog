@@ -35,17 +35,7 @@ public class PostController {
      * @return
      */
     @PostMapping("/posts")
-    public Map<String, String> post2(@RequestBody @Valid PostCreate params, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()) {
-            List<FieldError> fieldErrors = bindingResult.getFieldErrors();
-            FieldError error = fieldErrors.get(0);
-            String field = error.getField();
-            String message = error.getDefaultMessage();
-
-            Map<String, String> result = new HashMap<>();
-            result.put(field, message);
-            return result;
-        }
+    public Map<String, String> post2(@RequestBody @Valid PostCreate params) {
         return Map.of();
     }
 }
