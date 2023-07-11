@@ -1,5 +1,6 @@
 package com.blog.request;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ public class PostCreate {
     @NotBlank
     private String content;
 
+    @Builder
     public PostCreate(String title, String content) {
         this.title = title;
         this.content = content;
