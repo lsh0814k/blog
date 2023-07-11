@@ -1,6 +1,7 @@
 package com.blog.request;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 
@@ -11,9 +12,9 @@ public class PostCreate {
     @NotBlank
     private String content;
 
-    public PostCreate(String title, String conent) {
+    public PostCreate(String title, String content) {
         this.title = title;
-        this.content = conent;
+        this.content = content;
     }
 
     @Override
