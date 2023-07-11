@@ -16,11 +16,7 @@ public class PostController {
 
     private final PostService postService;
 
-    /**
-     * MediaType.APPLICATION_JSON 요청
-     * @param request
-     * @return
-     */
+
     @PostMapping("/posts")
     public void write(@RequestBody @Valid PostCreate request) {
         postService.write(request);
