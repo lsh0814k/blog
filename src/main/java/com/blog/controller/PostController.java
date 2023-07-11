@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.Map;
 
 @RestController
 @Slf4j
@@ -24,8 +23,7 @@ public class PostController {
      * @return
      */
     @PostMapping("/posts")
-    public Map<String, String> post2(@RequestBody @Valid PostCreate request) {
+    public void post2(@RequestBody @Valid PostCreate request) {
         postService.write(request);
-        return Map.of();
     }
 }
