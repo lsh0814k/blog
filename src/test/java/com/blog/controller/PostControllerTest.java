@@ -167,7 +167,7 @@ class PostControllerTest {
                 .andExpect(jsonPath("$[0].content").value("내용1"))
                 .andExpect(jsonPath("$[1].id").value(post2.getId()))
                 .andExpect(jsonPath("$[1].title").value("제목2"))
-                .andExpect(jsonPath("$[1].content").value("내용2 "))
+                .andExpect(jsonPath("$[1].content").value("내용2"))
                 .andDo(print());
     }
 }
