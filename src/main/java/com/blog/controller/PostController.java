@@ -1,11 +1,11 @@
 package com.blog.controller;
 
-import com.blog.domain.Post;
 import com.blog.request.PostCreate;
 import com.blog.response.PostResponse;
 import com.blog.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -19,8 +19,8 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping("/posts")
-    public List<PostResponse> findAll() {
-        return postService.findAll();
+    public List<PostResponse> findAll(Pageable pageable) {
+        return postService.findAll(pageable);
     }
 
     @PostMapping("/posts")

@@ -9,11 +9,15 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.springframework.data.domain.Sort.Direction.DESC;
 
 @SpringBootTest
 class PostServiceTest {
@@ -138,9 +142,31 @@ class PostServiceTest {
         postRepository.save(post2);
 
         // when
-        List<PostResponse> posts = postService.findAll();
+        List<PostResponse> posts = postService.findAll(PageRequest.of(0, 5));
 
         // then
         assertThat(posts.size()).isSameAs(2);
+    }
+
+    @Test
+    @DisplayName("글 1페이지 조회(페이징)")
+    void firstPage() {
+        // given
+        List<Post> requestPosts = IntStream.range(1, 31)
+                        .mapToObj(idx -> Post.builder()
+                                .title("제목 " + idx)
+                                .content("내용 " + idx)
+                                .build()
+                        )
+                        .collect(Collectors.toList());
+        postRepository.saveAll(requestPosts);
+
+        // when
+        List<PostResponse> posts = postService.findAll(PageRequest.of(0, 5, DESC, "id"));
+
+        // then
+        assertThat(posts.size()).isSameAs(5);
+        assertThat(posts.get(0).getTitle()).isEqualTo("제목 30");
+        assertThat(posts.get(4).getTitle()).isEqualTo("제목 26");
     }
 }

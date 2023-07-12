@@ -10,3 +10,7 @@ spring:
         username: sa
         password:
         driver-class-name: org.h2.Driver
+    data:
+        web:
+            pageable:
+                one-indexed-parameters: true # @PageableDefault의 index가 0부터 아닌 1부터 되도록 설정
