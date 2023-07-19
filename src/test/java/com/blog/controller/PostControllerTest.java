@@ -189,8 +189,33 @@ class PostControllerTest {
         postRepository.saveAll(requestPosts);
 
         // expected
-        mockMvc.perform(get("/posts?page=1&size=5&sort=id,desc")
+        mockMvc.perform(get("/posts-old?page=1&size=5&sort=id,desc")
                     .contentType(APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()", is(5)))
+                .andExpect(jsonPath("$[0].id").value(30))
+                .andExpect(jsonPath("$[0].title").value("제목 30"))
+                .andExpect(jsonPath("$[0].content").value("내용 30"))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("글 1페이지 조회")
+    void firstPageByQuerydsl() throws Exception {
+        // given
+        List<Post> requestPosts = IntStream.range(1, 31)
+                .mapToObj(idx -> Post.builder()
+                        .title("제목 " + idx)
+                        .content("내용 " + idx)
+                        .build()
+                )
+                .collect(Collectors.toList());
+        postRepository.saveAll(requestPosts);
+
+        // expected
+        mockMvc.perform(get("/posts?page=1&size=5&sort=id,desc")
+                        .contentType(APPLICATION_JSON)
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()", is(5)))

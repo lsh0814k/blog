@@ -3,6 +3,7 @@ package com.blog.service;
 import com.blog.domain.Post;
 import com.blog.repository.PostRepository;
 import com.blog.request.PostCreate;
+import com.blog.request.PostSearch;
 import com.blog.response.PostResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -168,5 +169,30 @@ class PostServiceTest {
         assertThat(posts.size()).isSameAs(5);
         assertThat(posts.get(0).getTitle()).isEqualTo("제목 30");
         assertThat(posts.get(4).getTitle()).isEqualTo("제목 26");
+    }
+
+    @Test
+    @DisplayName("글 1페이지 조회(페이징) querydsl")
+    void firstPageByQuerydsl() {
+        // given
+        List<Post> requestPosts = IntStream.range(1, 31)
+                .mapToObj(idx -> Post.builder()
+                        .title("제목 " + idx)
+                        .content("내용 " + idx)
+                        .build()
+                )
+                .collect(Collectors.toList());
+        postRepository.saveAll(requestPosts);
+
+        PostSearch postSearch = PostSearch.builder()
+                .page(1)
+                .build()
+                ;
+        // when
+        List<PostResponse> posts = postService.getList(postSearch);
+
+        // then
+        assertThat(posts.size()).isSameAs(10);
+        assertThat(posts.get(0).getTitle()).isEqualTo("제목 30");
     }
 }

@@ -1,6 +1,7 @@
 package com.blog.controller;
 
 import com.blog.request.PostCreate;
+import com.blog.request.PostSearch;
 import com.blog.response.PostResponse;
 import com.blog.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -18,10 +19,16 @@ public class PostController {
 
     private final PostService postService;
 
-    @GetMapping("/posts")
+    @GetMapping("/posts-old")
     public List<PostResponse> findAll(Pageable pageable) {
         return postService.findAll(pageable);
     }
+
+    @GetMapping("/posts")
+    public List<PostResponse> getList(@ModelAttribute PostSearch postSearch) {
+        return postService.getList(postSearch);
+    }
+
 
     @PostMapping("/posts")
     public void write(@RequestBody @Valid PostCreate request) {
