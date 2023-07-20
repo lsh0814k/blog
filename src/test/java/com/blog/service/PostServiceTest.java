@@ -44,7 +44,7 @@ class PostServiceTest {
                 .build();
 
         // when
-        postService.write(postCreate);
+        postService.write(postCreate.createPost());
 
         // then
         assertThat(postRepository.count()).isSameAs(1L);

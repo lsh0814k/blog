@@ -32,7 +32,7 @@ public class PostController {
 
     @PostMapping("/posts")
     public void write(@RequestBody @Valid PostCreate request) {
-        postService.write(request);
+        postService.write(request.createPost());
     }
 
     @GetMapping("/posts/{postId}")

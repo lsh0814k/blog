@@ -1,5 +1,6 @@
 package com.blog.request;
 
+import com.blog.domain.Post;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,5 +27,12 @@ public class PostCreate {
                 "title='" + title + '\'' +
                 ", conent='" + content + '\'' +
                 '}';
+    }
+
+    public Post createPost() {
+        return Post.builder()
+                .title(title)
+                .content(content)
+                .build();
     }
 }

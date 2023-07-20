@@ -20,14 +20,7 @@ public class PostService {
 
     private final PostRepository postRepository;
 
-
-
-    public void write(PostCreate postCreate) {
-        // postCreate -> Entity
-        Post post = Post.builder()
-                .title(postCreate.getTitle())
-                .content(postCreate.getContent())
-                .build();
+    public void write(Post post) {
         postRepository.save(post);
     }
 
